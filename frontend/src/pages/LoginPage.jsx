@@ -83,13 +83,8 @@ export default function LoginPage() {
       }
     } catch (err) {
       console.error('[Login Error]:', err);
-      if (err.isBackendUnavailable || err.is404 || err.status === 404) {
-        setIs404Error(true);
-        setError('Request failed with status 404: Backend API server is not reachable from this Netlify domain.');
-      } else {
-        setError(err.message || 'Invalid username or password.');
-        toast.error(err.message || 'Invalid username or password.');
-      }
+      setError(err.message || 'Invalid username or password. Please try again.');
+      toast.error(err.message || 'Login failed. Please try again.');
     } finally {
       setLoading(false);
     }
