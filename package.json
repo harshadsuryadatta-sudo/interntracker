@@ -1,0 +1,15 @@
+{
+  "name": "intern-report-tracker",
+  "version": "1.0.0",
+  "description": "Production-ready full-stack Intern Report Tracker with Instagram Analytics",
+  "scripts": {
+    "install:all": "cd backend && npm install && cd ../frontend && npm install",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build:frontend": "cd frontend && npm run build",
+    "start": "cd backend && npm start"
+  },
+  "keywords": ["intern-tracker", "attendance", "reports", "instagram-analytics"],
+  "author": "",
+  "license": "ISC"
+}
