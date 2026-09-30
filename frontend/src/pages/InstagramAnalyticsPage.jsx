@@ -52,12 +52,43 @@ export default function InstagramAnalyticsPage() {
   });
 
 
+  // Calculate time ago in the browser (uses user's local timezone)
+  const timeAgo = (dateInput) => {
+    if (!dateInput) return 'Never';
+    const date = new Date(dateInput);
+    const now = new Date();
+    const diffInSeconds = Math.floor((now - date) / 1000);
+    if (diffInSeconds < 60) return 'just now';
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    if (diffInMinutes < 60) return `${diffInMinutes} minute${diffInMinutes > 1 ? 's' : ''} ago`;
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    if (diffInHours < 24) return `${diffInHours} hour${diffInHours > 1 ? 's' : ''} ago`;
+    const diffInDays = Math.floor(diffInHours / 24);
+    if (diffInDays < 30) return `${diffInDays} day${diffInDays > 1 ? 's' : ''} ago`;
+    const diffInMonths = Math.floor(diffInDays / 30);
+    return `${diffInMonths} month${diffInMonths > 1 ? 's' : ''} ago`;
+  };
+
+  const formatLocalDate = (isoString) => {
+    if (!isoString) return 'Never';
+    return new Date(isoString).toLocaleString('en-IN', {
+      day: 'numeric', month: 'short', year: 'numeric',
+      hour: 'numeric', minute: '2-digit', hour12: true,
+    });
+  };
+
   const fetchAccounts = async () => {
     try {
       const res = await api.getInstagramAccounts();
       if (res.success) {
-        setAccounts(res.accounts || []);
-        setLastSyncedFormatted(res.lastSyncedFormatted || 'Never');
+        // Enrich accounts with locally-computed time fields
+        const enriched = (res.accounts || []).map(acc => ({
+          ...acc,
+          timeSinceLastPost: timeAgo(acc.last_post_date),
+          lastSyncedFormatted: formatLocalDate(acc.last_synced_at),
+        }));
+        setAccounts(enriched);
+        setLastSyncedFormatted(res.lastSyncedAt ? formatLocalDate(res.lastSyncedAt) : 'Never');
       }
     } catch (err) {
       toast.error('Unable to load Instagram data. Showing the last successfully synchronized data.');

@@ -6,20 +6,8 @@ async function getAccounts(req, res) {
   try {
     const rawAccounts = await instagramModel.getAllAccounts();
 
-    const accounts = rawAccounts.map(acc => ({
-      ...acc,
-      timeSinceLastPost: timeAgo(acc.last_post_date),
-      lastSyncedFormatted: acc.last_synced_at
-        ? new Date(acc.last_synced_at).toLocaleString('en-US', {
-            day: 'numeric',
-            month: 'short',
-            year: 'numeric',
-            hour: 'numeric',
-            minute: '2-digit',
-            hour12: true,
-          })
-        : 'Never',
-    }));
+    // Send raw data — let the frontend format dates in the user's local timezone
+    const accounts = rawAccounts.map(acc => ({ ...acc }));
 
     let latestSync = null;
     for (const acc of rawAccounts) {
@@ -34,17 +22,7 @@ async function getAccounts(req, res) {
     return res.status(200).json({
       success: true,
       count: accounts.length,
-      lastSyncedAt: latestSync,
-      lastSyncedFormatted: latestSync
-        ? latestSync.toLocaleString('en-US', {
-            day: 'numeric',
-            month: 'short',
-            year: 'numeric',
-            hour: 'numeric',
-            minute: '2-digit',
-            hour12: true,
-          })
-        : 'Never',
+      lastSyncedAt: latestSync ? latestSync.toISOString() : null,
       accounts,
     });
   } catch (error) {
