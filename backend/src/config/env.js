@@ -15,5 +15,8 @@ module.exports = {
   INSTAGRAM_APP_ID: process.env.INSTAGRAM_APP_ID || '',
   INSTAGRAM_APP_SECRET: process.env.INSTAGRAM_APP_SECRET || '',
   INSTAGRAM_ACCESS_TOKEN: process.env.INSTAGRAM_ACCESS_TOKEN || '',
+  // RapidAPI Instagram Scraper
+  RAPIDAPI_KEY: process.env.RAPIDAPI_KEY || '',
 };
+
 
