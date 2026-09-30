@@ -1,11 +1,20 @@
 import { mockApi } from './mockApi';
 
 export function getApiBaseUrl() {
+  const viteUrl = import.meta.env.VITE_API_URL || '/api';
+
+  // If VITE_API_URL is a full external URL (production Render backend),
+  // always use it — never let stale localStorage override it.
+  if (viteUrl && viteUrl.startsWith('https://')) {
+    return viteUrl.replace(/\/+$/, '');
+  }
+
+  // Otherwise (local dev with /api), allow custom URL override from localStorage
   const custom = typeof window !== 'undefined' ? localStorage.getItem('custom_api_url') : null;
   if (custom && custom.trim()) {
     return custom.trim().replace(/\/+$/, '');
   }
-  return import.meta.env.VITE_API_URL || '/api';
+  return viteUrl;
 }
 
 export function isDemoModeActive() {

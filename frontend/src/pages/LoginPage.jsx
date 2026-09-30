@@ -205,46 +205,10 @@ export default function LoginPage() {
             )}
           </div>
 
-          {/* Standard Error */}
-          {error && !is404Error && (
+          {/* Error Message */}
+          {error && (
             <div className="mb-5 p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-xs font-medium text-rose-700 leading-relaxed">
               {error}
-            </div>
-          )}
-
-          {/* 404 Backend Detection Banner */}
-          {is404Error && (
-            <div className="mb-5 p-4 rounded-2xl bg-amber-50/90 border border-amber-300 text-left space-y-3 animate-in fade-in">
-              <div className="flex items-start gap-2.5">
-                <div className="p-1.5 bg-amber-200/80 rounded-lg text-amber-800 shrink-0 mt-0.5">
-                  <AlertTriangle className="w-4 h-4" />
-                </div>
-                <div>
-                  <h4 className="text-xs font-bold text-amber-900">Backend Server Not Connected (HTTP 404)</h4>
-                  <p className="text-[11px] text-amber-800 mt-1 leading-relaxed">
-                    Netlify is currently hosting the static frontend, but your Node backend is not connected. Choose how you want to proceed:
-                  </p>
-                </div>
-              </div>
-
-              <div className="pt-1 flex flex-col sm:flex-row gap-2">
-                <button
-                  type="button"
-                  onClick={handleEnableDemoMode}
-                  className="w-full sm:w-auto px-3.5 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-xs transition-colors flex items-center justify-center gap-1.5"
-                >
-                  <Zap className="w-3.5 h-3.5" />
-                  <span>Instant Demo Mode</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowServerModal(true)}
-                  className="w-full sm:w-auto px-3 py-2 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-100 border border-slate-300 rounded-xl transition-colors flex items-center justify-center gap-1.5"
-                >
-                  <Settings className="w-3.5 h-3.5 text-slate-500" />
-                  <span>Connect Backend URL</span>
-                </button>
-              </div>
             </div>
           )}
 

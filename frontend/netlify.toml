@@ -1,9 +1,11 @@
 [build]
+  base = "frontend"
   publish = "dist"
   command = "npm run build"
 
 [build.environment]
   NODE_VERSION = "20"
+  VITE_API_URL = "https://interntracker-backend-bjh2.onrender.com/api"
 
 [[headers]]
   for = "/*"
